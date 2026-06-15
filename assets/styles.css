@@ -103,7 +103,20 @@ body {
 .note { display: flex; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: 11px; font-size: .88rem; }
 .note.breathe { background: rgba(54,197,240,.12); border: 1px solid rgba(54,197,240,.3); }
 .note.tip     { background: rgba(255,210,61,.10); border: 1px solid rgba(255,210,61,.3); }
+.note.safe    { background: rgba(61,220,132,.10); border: 1px solid rgba(61,220,132,.35); }
 .note .ico { font-size: 1.1rem; }
+
+/* ---------- Inline per-exercise timer (on the card) ---------- */
+.card-timer {
+  margin-top: 14px; padding: 12px; border-radius: 13px; text-align: center;
+  background: var(--bg-card-2); border: 1px solid var(--line-dim);
+}
+.ct-disp { font-size: 2.6rem; font-weight: 800; font-variant-numeric: tabular-nums;
+  letter-spacing: -1px; line-height: 1; }
+.ct-disp.low { color: var(--accent); animation: pulse .5s ease-in-out infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.12); } }
+.ct-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 10px 0 6px; }
+.ct-note { font-size: .82rem; color: var(--text-dim); min-height: 1.1em; }
 
 /* collapsible "how to" */
 .how-toggle { background: none; border: none; color: var(--accent); cursor: pointer; font-size: .9rem;

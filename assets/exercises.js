@@ -243,6 +243,7 @@ const EXERCISES = {
     sets: "2 rounds", reps: "45 seconds each", rest: "20 sec",
     breathe: "Breathe normally and steadily.",
     tip: "This wakes up your muscles so you don't get injured. Never skip it.",
+    workSec: 45,
   },
   jacks: {
     name: "Jumping Jacks", anim: "jumpingjack", target: "Warm-up / Cardio",
@@ -254,6 +255,7 @@ const EXERCISES = {
     sets: "2", reps: "30 reps", rest: "20 sec",
     breathe: "In through the nose, out through the mouth, in rhythm.",
     tip: "Land softly on the balls of your feet, knees slightly bent.",
+    workSec: 30,
   },
 
   // ---------- Push (chest / shoulders / triceps) ----------
@@ -268,6 +270,7 @@ const EXERCISES = {
     sets: "3", reps: "8–12 reps", rest: "60 sec",
     breathe: "Breathe IN as you go down, breathe OUT as you push up.",
     tip: "Too hard? Put your knees on the floor. Build up to full push-ups over a few weeks.",
+    safety: "Look at the floor (not forward) to keep your neck neutral. Keep your body one straight line so your lower back doesn't sag down.",
   },
   press: {
     name: "Dumbbell Overhead Press", anim: "press", target: "Shoulders, arms",
@@ -279,6 +282,7 @@ const EXERCISES = {
     sets: "3", reps: "10–12 reps", rest: "60 sec",
     breathe: "Breathe OUT as you push up, IN as you lower.",
     tip: "Don't lean back. Squeeze your tummy tight to protect your lower back.",
+    safety: "Keep your ribs down and core braced — do NOT arch your lower back to push the weight up. Press in a straight line overhead and keep your shoulders down, away from your ears, to protect your neck.",
   },
 
   // ---------- Pull (back / biceps) ----------
@@ -292,6 +296,7 @@ const EXERCISES = {
     sets: "3", reps: "As many as you can (aim 3–8)", rest: "90 sec",
     breathe: "Breathe OUT as you pull up, IN as you come down.",
     tip: "Can't do one yet? Jump up to the top, then lower yourself down as SLOWLY as possible. This builds the strength fast.",
+    safety: "Before pulling, set your shoulders DOWN (away from your ears) — don't hang loose from the joint or shrug up. Avoid swinging/kicking your legs to cheat the rep; control it.",
   },
   row: {
     name: "Bent-Over Dumbbell Row", anim: "row", target: "Back, arms",
@@ -304,6 +309,7 @@ const EXERCISES = {
     sets: "3", reps: "10–12 reps", rest: "60 sec",
     breathe: "Breathe OUT as you pull up, IN as you lower.",
     tip: "Keep your back flat like a table — never rounded. Look at the floor ahead of you.",
+    safety: "This is the #1 move to protect your back on: keep your spine flat like a table (never rounded), brace your tummy, and bend at the HIPS with soft knees. Don't jerk or swing the weight up — pull it smoothly.",
   },
   curl: {
     name: "Dumbbell Biceps Curl", anim: "curl", target: "Arms (biceps)",
@@ -316,6 +322,7 @@ const EXERCISES = {
     sets: "3", reps: "12 reps", rest: "45 sec",
     breathe: "Breathe OUT as you lift, IN as you lower.",
     tip: "Slow and controlled beats heavy and swinging. No body rocking.",
+    safety: "Keep your wrists straight (not bent back) and elbows pinned to your sides. Don't rock or swing your back to throw the weight up — if you have to swing, the dumbbell is too heavy.",
   },
 
   // ---------- Legs ----------
@@ -330,6 +337,7 @@ const EXERCISES = {
     sets: "3", reps: "12–15 reps", rest: "60 sec",
     breathe: "Breathe IN as you go down, OUT as you stand up.",
     tip: "Keep your heels flat on the floor and your chest up the whole time.",
+    safety: "Push your hips BACK first (like reaching your bum to a chair behind you), keep your chest up and back straight, and your weight in your heels. This protects both your knees and your lower back.",
   },
   lunge: {
     name: "Lunges", anim: "lunge", target: "Legs, glutes, balance",
@@ -355,6 +363,8 @@ const EXERCISES = {
     sets: "3", reps: "Hold 20–40 seconds", rest: "45 sec",
     breathe: "Keep breathing slowly — do NOT hold your breath.",
     tip: "Quality over time. A perfect 20-second plank beats a saggy 1-minute one.",
+    safety: "Don't let your hips sag down (this hurts the lower back) or pike up high. Keep your neck long — look at the floor just in front of your hands, not forward.",
+    workSec: 30,
   },
   crunch: {
     name: "Crunches", anim: "crunch", target: "Core / upper abs",
@@ -367,6 +377,7 @@ const EXERCISES = {
     sets: "3", reps: "15–20 reps", rest: "45 sec",
     breathe: "Breathe OUT as you crunch up, IN as you lower.",
     tip: "Look at the ceiling, not your knees, to keep your neck relaxed.",
+    safety: "Your hands only REST behind your head — never pull on your neck with them. The movement comes from your tummy curling, not from yanking your head forward.",
   },
   legraise: {
     name: "Lying Leg Raises", anim: "legraise", target: "Core / lower abs",
@@ -378,6 +389,7 @@ const EXERCISES = {
     sets: "3", reps: "12–15 reps", rest: "45 sec",
     breathe: "Breathe OUT as you lift, IN as you lower.",
     tip: "If your lower back lifts off the floor, don't lower your legs as far. Press your back down.",
+    safety: "Keep your lower back pressed FLAT into the floor the whole time. The moment it arches up off the floor, raise your legs less far — this is what protects your lower back.",
   },
 
   // ---------- Cardio / Conditioning ----------
@@ -391,6 +403,7 @@ const EXERCISES = {
     sets: "5 rounds", reps: "45 sec skip / 20 sec rest", rest: "20 sec between rounds",
     breathe: "Find a steady rhythm and breathe with it.",
     tip: "Tripping a lot is normal at first. Go slow; speed comes with practice.",
+    workSec: 45,
   },
   bag: {
     name: "Punching Bag Rounds", anim: "punch", target: "Cardio, arms, core, stress relief",
@@ -402,6 +415,8 @@ const EXERCISES = {
     sets: "3 rounds", reps: "2 minutes each", rest: "60 sec",
     breathe: "Short sharp breath OUT with each punch (like 'tss').",
     tip: "Start gently to warm your wrists. Don't fully lock out your elbows when you punch.",
+    safety: "Keep a small bend in your elbows — never fully snap/lock them straight, as that jars the joint. Keep your wrists firm and straight on impact so they don't bend.",
+    workSec: 120,
   },
   climber: {
     name: "Mountain Climbers", anim: "climber", target: "Cardio + core",
@@ -413,6 +428,7 @@ const EXERCISES = {
     sets: "3", reps: "30 seconds", rest: "30 sec",
     breathe: "Quick steady breaths.",
     tip: "Keep your hips low and level — don't let your bum stick up in the air.",
+    workSec: 30,
   },
   swim: {
     name: "Swimming", anim: "swim", target: "Whole-body cardio + muscle (low impact)",

@@ -45,6 +45,7 @@ function go(tab) { currentTab = tab; render(); window.scrollTo({ top: 0, behavio
 
 /* --------------------------- RENDER ROOT ----------------------- */
 function render() {
+  clearCardTimers(); // stop any inline exercise timers from the previous view
   let body = "";
   if (currentTab === "today") body = viewToday();
   else if (currentTab === "plan") body = viewPlan();
@@ -159,6 +160,8 @@ function viewWorkout(idx) {
 }
 
 function exerciseCard(ex, key) {
+  const restSec = parseSeconds(ex.rest);
+  const workSec = ex.workSec || null;
   return `
     <div class="ex-card">
       <div class="ex-head">
@@ -173,15 +176,79 @@ function exerciseCard(ex, key) {
           </div>
         </div>
       </div>
+      ${timerBlock(key, workSec, restSec)}
       <div class="ex-detail">
         <button class="how-toggle" data-how="${key}">▾ How to do it (step by step)</button>
         <div class="how-body hidden" id="how-${key}">
           <ol>${ex.how.map(s => `<li>${s}</li>`).join("")}</ol>
           <div class="note breathe"><span class="ico">🫁</span><div><b>Breathing:</b> ${ex.breathe}</div></div>
+          ${ex.safety ? `<div class="note safe"><span class="ico">🛡️</span><div><b>Protect your back/neck:</b> ${ex.safety}</div></div>` : ""}
           <div class="note tip"><span class="ico">💡</span><div><b>Tip:</b> ${ex.tip}</div></div>
         </div>
       </div>
     </div>`;
+}
+
+/* Inline per-exercise timer (shown right on the card so you watch it while
+   doing the move). "Do it" counts the work time; "Rest" counts your break. */
+function timerBlock(id, workSec, restSec) {
+  const init = workSec || restSec || 60;
+  let btns = "";
+  if (workSec) btns += `<button class="btn sm" data-ct="${id}" data-secs="${workSec}" data-lbl="work">▶ Do it (${fmt(workSec)})</button>`;
+  btns += `<button class="btn blue sm" data-ct="${id}" data-secs="${restSec || 60}" data-lbl="Rest">😮‍💨 Rest (${fmt(restSec || 60)})</button>`;
+  btns += `<button class="btn ghost sm" data-ctreset="${id}">↺ Reset</button>`;
+  return `
+    <div class="card-timer">
+      <div class="ct-disp" id="ct-${id}">${fmt(init)}</div>
+      <div class="ct-btns">${btns}</div>
+      <div class="ct-note" id="ctn-${id}">⏱️ Tap a button to start this exercise's timer.</div>
+    </div>`;
+}
+
+// Pull the first number out of a string like "60 sec" or "2 minutes" -> seconds.
+function parseSeconds(str) {
+  const m = String(str).match(/(\d+)/);
+  if (!m) return null;
+  let n = +m[1];
+  if (/min/i.test(str)) n *= 60;
+  return n;
+}
+
+// Engine for the inline card timers. Each card has its own countdown.
+const cardTimers = {};
+function clearCardTimers() {
+  Object.values(cardTimers).forEach(t => { if (t && t.intId) clearInterval(t.intId); });
+}
+function startCardTimer(id, secs, lbl) {
+  const t = cardTimers[id] || (cardTimers[id] = {});
+  if (t.intId) clearInterval(t.intId);
+  t.remaining = secs; t.last = secs;
+  const disp = document.getElementById("ct-" + id);
+  const note = document.getElementById("ctn-" + id);
+  if (disp) { disp.textContent = fmt(secs); disp.classList.remove("low"); }
+  if (note) note.textContent = (lbl === "Rest") ? "😮‍💨 Resting — breathe and shake it out." : "💪 Go! Keep good form.";
+  t.intId = setInterval(() => {
+    t.remaining--;
+    if (disp) {
+      disp.textContent = fmt(Math.max(0, t.remaining));
+      disp.classList.toggle("low", t.remaining <= 3 && t.remaining > 0);
+    }
+    if (t.remaining <= 0) {
+      clearInterval(t.intId); t.intId = null; beep();
+      if (disp) disp.classList.remove("low");
+      if (note) note.textContent = (lbl === "Rest") ? "✅ Rest done — start your next set!" : "✅ Time! Now take your rest.";
+    }
+  }, 1000);
+}
+function resetCardTimer(id) {
+  const t = cardTimers[id];
+  if (!t) return;
+  if (t.intId) clearInterval(t.intId);
+  t.intId = null;
+  const disp = document.getElementById("ct-" + id);
+  if (disp) { disp.textContent = fmt(t.last || 60); disp.classList.remove("low"); }
+  const note = document.getElementById("ctn-" + id);
+  if (note) note.textContent = "↺ Reset — tap a button to start again.";
 }
 
 /* ---------------------------- TIMER ---------------------------- */
@@ -300,6 +367,30 @@ function viewTips() {
     </div>
 
     <div class="info-card">
+      <h3>📊 Is this enough? How to actually get results</h3>
+      <p>Yes — this plan is enough to build muscle, get stronger and lean out. The secret isn't doing <i>more</i> exercises, it's <b>progressive overload</b>: making the SAME exercises a little harder every week.</p>
+      <ul>
+        <li><b>Each week, beat last week</b> by a tiny bit: 1–2 more reps, 1 more set, a slightly heavier dumbbell, or a few more seconds on planks/rounds.</li>
+        <li><b>When an exercise feels easy</b> (you can do more than the top rep number with good form), add weight or reps.</li>
+        <li><b>Don't add random extra workouts</b> on rest days — that steals the recovery your muscles need to grow. Rest IS part of the plan.</li>
+        <li><b>Extra energy?</b> The only safe "bonus" is 10–15 min of easy skipping or a walk — not more heavy lifting on tired muscles.</li>
+      </ul>
+      <p class="muted">Each day trains different muscles on purpose (a "split"), so the bag, pull-ups and skipping live on their own days — that's by design, not missing.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>🛡️ Stay injury-free (back & neck)</h3>
+      <p>Most beginner injuries come from a rounded back or a strained neck. Keep these in mind, especially with the dumbbells:</p>
+      <ul>
+        <li><b>Back:</b> on rows, squats and presses keep your spine straight and your tummy braced (gently tense like someone's about to poke it). Never round your back to lift, and never arch it backwards to push weight up.</li>
+        <li><b>Neck:</b> on crunches your hands only <i>rest</i> behind your head — never pull. Keep your eyes on the ceiling. On planks look at the floor.</li>
+        <li><b>Light first:</b> with any new dumbbell move, do a light set to learn the movement before going harder.</li>
+        <li><b>Pain rule:</b> muscle "burn" and next-day soreness are fine. Sharp or joint pain = stop that exercise.</li>
+      </ul>
+      <p class="muted">Every exercise card has a green 🛡️ "Protect your back/neck" note — read it the first few times.</p>
+    </div>
+
+    <div class="info-card">
       <h3>🍽️ Food for muscle + a 6-pack (simple)</h3>
       <p>Abs are made in the kitchen. To see them you need muscle <i>and</i> low belly fat.</p>
       <ul>
@@ -353,6 +444,12 @@ function bind() {
   // open a workout from a day card
   document.querySelectorAll("[data-open]").forEach(el =>
     el.addEventListener("click", () => { openDayIndex = +el.dataset.open; go("workout"); }));
+
+  // inline per-exercise timers
+  document.querySelectorAll("[data-ct]").forEach(el =>
+    el.addEventListener("click", () => startCardTimer(el.dataset.ct, +el.dataset.secs, el.dataset.lbl)));
+  document.querySelectorAll("[data-ctreset]").forEach(el =>
+    el.addEventListener("click", () => resetCardTimer(el.dataset.ctreset)));
 
   // expand "how to"
   document.querySelectorAll("[data-how]").forEach(el =>
