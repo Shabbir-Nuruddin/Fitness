@@ -1,0 +1,168 @@
+/* =========================================================================
+   styles.css — visual design for the fitness app
+   Mobile-first, works great on a phone and on desktop.
+   ========================================================================= */
+
+:root {
+  --bg:        #0e1117;
+  --bg-card:   #161b25;
+  --bg-card-2: #1c2230;
+  --line-dim:  #2c3444;
+  --text:      #e8edf5;
+  --text-dim:  #97a3b6;
+  --accent:    #ff6b3d;   /* energetic orange */
+  --accent-2:  #36c5f0;   /* cool blue (cardio/boxing) */
+  --good:      #3ddc84;   /* green = done / rest */
+  --warn:      #ffd23d;
+  --radius:    16px;
+  --shadow:    0 8px 30px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 50% -10%, #1a2030 0%, var(--bg) 60%);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 18px 16px 120px; }
+
+/* ---------- Header ---------- */
+.app-header { text-align: center; padding: 14px 0 6px; }
+.app-header h1 { font-size: 1.9rem; letter-spacing: -.5px; }
+.app-header h1 .flex { color: var(--accent); }
+.app-header p { color: var(--text-dim); font-size: .95rem; margin-top: 2px; }
+
+/* ---------- Stat strip ---------- */
+.stats { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 16px 0; }
+.stat {
+  background: var(--bg-card); border: 1px solid var(--line-dim);
+  border-radius: var(--radius); padding: 10px 16px; min-width: 92px; text-align: center;
+}
+.stat b { display: block; font-size: 1.3rem; color: var(--accent); }
+.stat span { font-size: .72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .5px; }
+
+/* ---------- Tabs / nav ---------- */
+.tabs {
+  display: flex; gap: 6px; background: var(--bg-card); border: 1px solid var(--line-dim);
+  border-radius: var(--radius); padding: 6px; margin: 8px 0 22px; position: sticky; top: 10px; z-index: 30;
+  backdrop-filter: blur(6px);
+}
+.tab {
+  flex: 1; text-align: center; padding: 10px 4px; border-radius: 11px; cursor: pointer;
+  color: var(--text-dim); font-weight: 600; font-size: .9rem; border: none; background: none; transition: .15s;
+}
+.tab.active { background: var(--accent); color: #160c06; }
+.tab:hover:not(.active) { color: var(--text); }
+
+/* ---------- Day cards (Plan view) ---------- */
+.day-card {
+  background: var(--bg-card); border: 1px solid var(--line-dim); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); cursor: pointer; transition: .15s;
+  border-left: 5px solid var(--accent);
+}
+.day-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.day-card.is-today { outline: 2px solid var(--accent); }
+.day-card .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.day-card .dow { font-size: .78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+.day-card h3 { font-size: 1.25rem; margin: 2px 0; }
+.day-card .focus { color: var(--text-dim); font-size: .9rem; }
+.day-card .badge { font-size: .72rem; padding: 3px 9px; border-radius: 99px; background: var(--bg-card-2); color: var(--text-dim); white-space: nowrap; }
+.day-card .badge.today { background: var(--accent); color: #160c06; font-weight: 700; }
+.day-card .preview { margin-top: 10px; font-size: .85rem; color: var(--text-dim); }
+
+/* ---------- Workout detail ---------- */
+.back-btn { background: none; border: 1px solid var(--line-dim); color: var(--text-dim);
+  border-radius: 10px; padding: 8px 14px; cursor: pointer; font-size: .9rem; margin-bottom: 14px; }
+.back-btn:hover { color: var(--text); border-color: var(--accent); }
+
+.block-title { font-size: .8rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent);
+  margin: 22px 0 10px; border-bottom: 1px solid var(--line-dim); padding-bottom: 6px; }
+
+.ex-card { background: var(--bg-card); border: 1px solid var(--line-dim); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.ex-head { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.ex-svg-box { width: 130px; height: 130px; background: var(--bg-card-2); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.exercise-svg { width: 120px; height: 120px; }
+.ex-info { flex: 1; min-width: 180px; }
+.ex-info h4 { font-size: 1.15rem; }
+.ex-target { color: var(--accent-2); font-size: .82rem; margin-bottom: 8px; }
+.pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill { background: var(--bg-card-2); border: 1px solid var(--line-dim); border-radius: 99px;
+  padding: 5px 12px; font-size: .8rem; }
+.pill b { color: var(--accent); }
+
+.ex-detail { margin-top: 14px; }
+.ex-detail ol { margin: 6px 0 0 20px; }
+.ex-detail ol li { margin-bottom: 5px; }
+.note { display: flex; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: 11px; font-size: .88rem; }
+.note.breathe { background: rgba(54,197,240,.12); border: 1px solid rgba(54,197,240,.3); }
+.note.tip     { background: rgba(255,210,61,.10); border: 1px solid rgba(255,210,61,.3); }
+.note .ico { font-size: 1.1rem; }
+
+/* collapsible "how to" */
+.how-toggle { background: none; border: none; color: var(--accent); cursor: pointer; font-size: .9rem;
+  font-weight: 600; padding: 0; margin-top: 4px; }
+
+/* ---------- Timer ---------- */
+.timer-card { background: var(--bg-card); border: 1px solid var(--line-dim); border-radius: var(--radius);
+  padding: 22px; text-align: center; box-shadow: var(--shadow); }
+.timer-display { font-size: 4rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
+.timer-label { color: var(--text-dim); margin-bottom: 16px; }
+.timer-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.timer-presets { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+
+button.btn { background: var(--accent); color: #160c06; border: none; border-radius: 12px;
+  padding: 12px 22px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: .12s; }
+button.btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+button.btn.ghost { background: var(--bg-card-2); color: var(--text); border: 1px solid var(--line-dim); }
+button.btn.blue { background: var(--accent-2); color: #04202b; }
+button.btn.sm { padding: 8px 14px; font-size: .88rem; }
+
+/* ---------- Water tracker ---------- */
+.water-card { background: var(--bg-card); border: 1px solid var(--line-dim); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.water-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.water-amount { font-size: 1.6rem; font-weight: 800; color: var(--accent-2); }
+.glasses { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+.glass { width: 34px; height: 44px; border: 2px solid var(--accent-2); border-top: none;
+  border-radius: 0 0 8px 8px; cursor: pointer; position: relative; overflow: hidden; background: var(--bg-card-2); transition: .15s; }
+.glass.full { background: var(--accent-2); }
+.glass:hover { transform: scale(1.08); }
+.water-bar { height: 12px; background: var(--bg-card-2); border-radius: 99px; overflow: hidden; }
+.water-bar > div { height: 100%; background: linear-gradient(90deg, var(--accent-2), #6fe0ff); transition: width .3s; }
+
+/* ---------- Checklist / progress ---------- */
+.check-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px;
+  background: var(--bg-card); border: 1px solid var(--line-dim); margin-bottom: 8px; cursor: pointer; }
+.check-row.done { opacity: .6; }
+.check-box { width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--line-dim); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+.check-row.done .check-box { background: var(--good); border-color: var(--good); color: #04230f; }
+.check-row .label { flex: 1; }
+.check-row.done .label { text-decoration: line-through; }
+
+/* ---------- Info / cards generic ---------- */
+.info-card { background: var(--bg-card); border: 1px solid var(--line-dim); border-radius: var(--radius);
+  padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.info-card h3 { color: var(--accent); margin-bottom: 8px; font-size: 1.1rem; }
+.info-card ul { margin-left: 18px; }
+.info-card ul li { margin-bottom: 6px; }
+.info-card p { margin-bottom: 8px; color: var(--text); }
+.muted { color: var(--text-dim); font-size: .9rem; }
+
+.hidden { display: none !important; }
+.section-title { font-size: 1.3rem; margin: 6px 0 14px; }
+
+/* small footer */
+.foot { text-align: center; color: var(--text-dim); font-size: .8rem; margin-top: 26px; }
+
+@media (max-width: 480px) {
+  .timer-display { font-size: 3.2rem; }
+  .app-header h1 { font-size: 1.6rem; }
+}
